@@ -1,0 +1,81 @@
+import random
+
+# List of stress-related keywords
+stress_keywords = [
+    'overwhelmed', 'anxious', 'stressed', 'tired', 'worried', 'pressure', 
+    'nervous', 'burned out', 'frustrated', 'sad', 'upset', 'angry'
+]
+
+# Possible responses based on detected stress level
+helpful_responses = {
+    "high": [
+        "It seems like you're feeling very stressed. Try to take a moment for yourself. Would you like to talk more about what’s bothering you?",
+        "It sounds like you're going through a lot right now. It's important to give yourself time to relax. Would you like a suggestion to help you calm down?",
+        "You seem to be under a lot of stress. Maybe take a deep breath and relax for a bit. How about we explore ways to handle it?"
+    ],
+    "medium": [
+        "You're expressing some stress, but it’s okay. Would you like to share more or maybe take a short break to clear your mind?",
+        "It seems like you're experiencing some pressure. Talking it out or taking a walk could help. Do you want to explore ways to relax?",
+        "It looks like there’s some stress, but not overwhelming. Try to focus on small positive things. Need help with stress management?"
+    ],
+    "low": [
+        "Great to hear you're feeling okay! Keep up the positive energy. If you need anything else, feel free to ask!",
+        "You seem to be doing well, which is fantastic! If anything comes to mind, I'm here to listen.",
+        "It’s good to know you're feeling okay. Let’s keep it that way. How else can I assist you today?"
+    ]
+}
+
+# Sentiment-based stress level detection
+def detect_stress(text):
+    text = text.lower()  # Convert text to lowercase
+    stress_count = 0
+
+    # Count how many stress-related keywords appear in the response
+    for keyword in stress_keywords:
+        if keyword in text:
+            stress_count += 1
+
+    # Return the stress level based on the keyword count
+    if stress_count >= 3:
+        return "high"  # High stress level if 3 or more keywords are found
+    elif stress_count == 1 or stress_count == 2:
+        return "medium"  # Medium stress level if 1 or 2 keywords are found
+    else:
+        return "low"  # Low stress if no keywords are found
+
+# AI-like Stress Assessment
+def ai_stress_assessment():
+    print("Welcome to your personal AI Stress Management Assistant!")
+    print("I'll ask you a few questions to understand how you're feeling.")
+    
+    questions = [
+        "How are you feeling today?",
+        "Have you been feeling overwhelmed recently?",
+        "Is there anything on your mind you'd like to talk about?"
+    ]
+    
+    responses = []
+    
+    # Ask questions and collect responses
+    for question in questions:
+        print(f"\n{question}")
+        response = input("Your response: ")
+        responses.append(response)
+    
+    # Evaluate stress level based on responses
+    overall_stress_level = "low"
+    for response in responses:
+        stress_level = detect_stress(response)  # AI detects stress based on responses
+        if stress_level == "high":
+            overall_stress_level = "high"
+            break
+        elif stress_level == "medium" and overall_stress_level == "low":
+            overall_stress_level = "medium"
+    
+    # Provide AI-generated feedback based on detected stress level
+    print("\nAssessment Complete. Here's your result:")
+    print(random.choice(helpful_responses[overall_stress_level]))  # Random helpful response
+
+# Run the AI stress management system
+ai_stress_assessment()
+*
